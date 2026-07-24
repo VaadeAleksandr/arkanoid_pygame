@@ -16,7 +16,7 @@ class Paddle:
         self.rect.midbottom = (cfg.WIDTH // 2, cfg.HEIGHT - 20)
         self.speed = cfg.PADDLE_SPEED
         self.vx = 0
-        self.extended = False
+        self.size_state = "normal"
         self.laser = False
 
     def move(self, keys: pygame.key.ScancodeWrapper) -> None:
@@ -31,15 +31,25 @@ class Paddle:
         if self.rect.right > cfg.FIELD_RIGHT:
             self.rect.right = cfg.FIELD_RIGHT
 
+    def _set_width(self, width: int) -> None:
+        center_x = self.rect.centerx
+        self.rect.width = width
+        self.rect.centerx = center_x
+
+        if self.rect.left < cfg.FIELD_LEFT:
+            self.rect.left = cfg.FIELD_LEFT
+        if self.rect.right > cfg.FIELD_RIGHT:
+            self.rect.right = cfg.FIELD_RIGHT
+
     def extend(self) -> None:
-        if not self.extended:
-            self.rect.width *= 2
-            self.extended = True
+        if self.size_state != "extended":
+            self._set_width(cfg.PADDLE_WIDTH * 2)
+            self.size_state = "extended"
 
     def shrink(self) -> None:
-        if self.extended:
-            self.rect.width //= 2
-            self.extended = False
+        if self.size_state != "shrunk":
+            self._set_width(cfg.PADDLE_WIDTH // 2)
+            self.size_state = "shrunk"
 
     def draw(self, screen: pygame.Surface) -> None:
         pygame.draw.rect(screen, cfg.PADDLE_COLOR, self.rect, border_radius=5)
@@ -111,6 +121,9 @@ class Bonus:
         "multiball": {"color": cfg.MAGENTA, "letter": "M"},
         "laser": {"color": cfg.YELLOW, "letter": "L"},
         "extra_life": {"color": cfg.CYAN, "letter": "1"},
+        "shrink": {"color": cfg.RED, "letter": "S"},
+        "speed_up": {"color": cfg.ORANGE, "letter": "U"},
+        "speed_down": {"color": cfg.WHITE, "letter": "D"},
     }
 
     _label_font: pygame.font.Font | None = None  # Lazy Creation

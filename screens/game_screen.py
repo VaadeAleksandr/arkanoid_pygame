@@ -103,6 +103,16 @@ def _apply_bonus(bonus_type: str, paddle: Paddle, balls: list[Ball], lives: int)
         paddle.laser = True
     elif bonus_type == "extra_life":
         lives += 1
+    elif bonus_type == "shrink":
+        paddle.shrink()
+    elif bonus_type == "speed_up":
+        for ball in balls:
+            ball.vx *= 1.5
+            ball.vy *= 1.5
+    elif bonus_type == "speed_down":
+        for ball in balls:
+            ball.vx /= 1.5
+            ball.vy /= 1.5
     return lives
 
 

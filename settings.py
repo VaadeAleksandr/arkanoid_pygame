@@ -34,7 +34,7 @@ MAX_BALL_SPEED_X = 8
 
 # --- Bonuses ---------------------------------------------------------------------
 BONUS_PROBABILITY = 0.3  
-BONUS_TYPES = ["extend", "multiball", "laser", "extra_life"]
+BONUS_TYPES = ["extend", "multiball", "laser", "extra_life", "shrink", "speed_up", "speed_down"]
 
 # --- Visuals -----------------------------------------------------------
 TRAIL_LENGTH = 6  
